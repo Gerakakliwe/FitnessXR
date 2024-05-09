@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfebb8ib3ws1h"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_6f7e6"]
+[ext_resource type="PackedScene" uid="uid://74xj0e2u86i4" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_hand.glb" id="2_xrwue"]
+[ext_resource type="PackedScene" uid="uid://cmr63p6u6tmvp" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_hand.glb" id="3_7k2k6"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_i46mg"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_6f7e6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="OpenXRLeftHand" type="OpenXRHand" parent="XROrigin3D"]
+hand_skeleton = NodePath("left_hand/Armature_001/Skeleton3D")
+
+[node name="left_hand" parent="XROrigin3D/OpenXRLeftHand" instance=ExtResource("2_xrwue")]
+
+[node name="OpenXRRightHand" type="OpenXRHand" parent="XROrigin3D"]
+hand = 1
+hand_skeleton = NodePath("right_hand/Armature/Skeleton3D")
+
+[node name="right_hand" parent="XROrigin3D/OpenXRRightHand" instance=ExtResource("3_7k2k6")]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_i46mg")
+
+[editable path="XROrigin3D/OpenXRLeftHand/left_hand"]
+[editable path="XROrigin3D/OpenXRRightHand/right_hand"]
